@@ -1,7 +1,8 @@
 const { createServer } = require('net');
+const { pageNotFound, createHandler } = require('./handler.js');
 const { parseRequest } = require('./src/requestParser.js');
-const { serveFileContent } = require('./src/serveFileContent.js');
 const { Response } = require('./src/response.js');
+const { serveFileContent } = require('./src/serveFileContent.js');
 
 const onRequest = (socket, rawRequest, handle, serverPath) => {
   const response = new Response(socket);
@@ -22,4 +23,13 @@ const startServer = (port, handler, serverPath) => {
   console.log(`Listening at ${port}`);
 };
 
-startServer(80, serveFileContent, './public');
+const main = (serverPath) => {
+  const handlers = [
+    serveFileContent,
+    pageNotFound
+  ];
+  const handler = createHandler(handlers);
+  startServer(80, handler, serverPath);
+};
+
+main('./public');

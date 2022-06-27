@@ -7,6 +7,7 @@ const getContentType = (fileName) => {
     'png': 'image/png',
     'jpeg': 'image/jpeg',
     'jpg': 'image/jpeg',
+    'pdf': 'application/pdf',
   }
   const extention = fileName.slice(fileName.lastIndexOf('.') + 1);
   return contentTypes[extention];
