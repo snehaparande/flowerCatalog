@@ -1,0 +1,28 @@
+* {
+  margin: 0em;
+  padding: 0em;
+}
+
+body {
+  font-size: 16px;
+  margin: 1em auto;
+  width: 100em;
+  font-family: serif;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  padding: 1em;
+}
+
+header>a {
+  font-size: 2em;
+}
+
+header>h1 {
+  text-align: center;
+  color: orange;
+}

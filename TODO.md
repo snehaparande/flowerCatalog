@@ -1,10 +1,11 @@
 **TODO:**
-  - [ ] Make simple pages for `ageratum` and `guestBook` and connect them to `home` page
-  - [ ] Create a page for `guestBook`
+  - [ ] take inputs from `guestBook`
   - [ ] Save the comments in JSON file
+  - [ ] Create a page for `guestBook`
   - [ ] Show the comments in different page
 
 **DONE:**
+  - [x] Make simple pages for `ageratum` and `guestBook` and connect them to `home` page
   - [x] Create a page for `ageratum` 
   - [x] Create a page for `abeliophyllum` 
   - [x] Create `handler.js`
