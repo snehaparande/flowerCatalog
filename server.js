@@ -1,5 +1,5 @@
 const { createServer } = require('net');
-const { pageNotFound, createHandler } = require('./handler.js');
+const { pageNotFound, commentHandler, createHandler } = require('./handler.js');
 const { parseRequest } = require('./src/requestParser.js');
 const { Response } = require('./src/response.js');
 const { serveFileContent } = require('./src/serveFileContent.js');
@@ -26,6 +26,7 @@ const startServer = (port, handler, serverPath) => {
 const main = (serverPath) => {
   const handlers = [
     serveFileContent,
+    commentHandler,
     pageNotFound
   ];
   const handler = createHandler(handlers);
