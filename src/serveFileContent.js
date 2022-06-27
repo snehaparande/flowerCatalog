@@ -16,14 +16,15 @@ const serveFileContent = ({ uri }, response, serverPath) => {
   if (uri === '/') {
     uri += 'home.html'
   }
+
   const fileName = serverPath + uri;
   if (!fs.existsSync(fileName)) {
     return false;
   }
+
+  const body = fs.readFileSync(fileName);
   response.addHeader('Content-Type', getContentType(fileName));
-  fs.readFile(fileName, (err, body) => {
-    response.send(body);
-  });
+  response.send(body);
   return true;
 };
 
