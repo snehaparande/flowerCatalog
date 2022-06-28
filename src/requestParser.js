@@ -1,10 +1,21 @@
+const parseLine = (line) => {
+  const words = line.split('+')
+  return words.join(' ');
+};
+
+const parseText = (text) => {
+  const lines = text.split('%0D%0A');
+  const parsedLines = lines.map(parseLine);
+  return parsedLines.join('\r\n');
+};
+
 const parseUri = (queryString) => {
   const params = {};
   const [uri, rawParams] = queryString.split('?');
   if (rawParams) {
     rawParams.split('&').forEach(param => {
       const [name, value] = param.split('=');
-      params[name] = value;
+      params[name] = parseText(value);
     });
   }
   return { uri, params };
