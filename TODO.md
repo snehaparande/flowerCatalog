@@ -1,4 +1,9 @@
 **TODO:**
+  - [ ] Parse the text input
+  - [ ] Think of extracting an entity for guest book
+    * addComment(comment)
+    * commentsHistory()
+    * write to file and read from file
   - [ ] Save the comments in JSON file
     * name
     * comment
@@ -6,6 +11,7 @@
   - [ ] Show the comments in different page
 
 **DONE:**
+  - [x] Change the response message based on the status code
   - [x] Create a page for `guestBook`
   - [x] Saved the comment in a variable
   - [x] Handle invalid comment

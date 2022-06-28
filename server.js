@@ -11,7 +11,6 @@ const onRequest = (socket, rawRequest, handle, serverPath) => {
   handle(request, response, serverPath);
 };
 
-
 const startServer = (port, handler, serverPath) => {
   const server = createServer((socket) => {
     socket.on('data', (chunk) => {

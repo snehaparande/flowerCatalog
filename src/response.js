@@ -1,5 +1,16 @@
 const EOF = '\r\n';
 
+const getMessage = (statusCode) => {
+  const messages = {
+    200: 'OK',
+    404: 'Not Found',
+    301: 'Moved Permanently',
+    302: 'Found'
+  };
+
+  return messages[statusCode];
+};
+
 class Response {
   #socket
   #status
@@ -25,7 +36,7 @@ class Response {
   }
 
   #writeStatusLine() {
-    this.#socket.write(`HTTP/1.1 ${this.#status} OK${EOF}`);
+    this.#socket.write(`HTTP/1.1 ${this.#status} ${getMessage(this.#status)}${EOF}`);
   }
 
   send(body) {
