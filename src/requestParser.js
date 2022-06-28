@@ -1,12 +1,8 @@
-const parseLine = (line) => {
-  const words = line.split('+')
-  return words.join(' ');
-};
-
 const parseText = (text) => {
-  const lines = text.split('%0D%0A');
-  const parsedLines = lines.map(parseLine);
-  return parsedLines.join('\r\n');
+  let parsedText = text.replaceAll(/\+/g, ' ');
+  parsedText = parsedText.replaceAll(/%0D/g, '\n');
+  parsedText = parsedText.replaceAll(/%0A/g, '\r');
+  return parsedText;
 };
 
 const parseUri = (queryString) => {

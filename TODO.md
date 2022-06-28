@@ -1,15 +1,18 @@
 **TODO:**
+  - [ ] Bind the `serveFileContent` with `srverPath`
+  - [ ] separate the `main` and `server`
+  - [ ] Separate the `server` and `application`
+  - [ ] Read the comment history once when the server starts
   - [ ] Think of extracting an entity for guest book
     * addComment(comment)
     * commentsHistory()
     * write to file and read from file
-  - [ ] Save the comments in JSON file
+  - [ ] Show the comments in different page
+**DONE:**
+  - [x] Save the comments in JSON file
     * name
     * comment
     * date time
-  - [ ] Show the comments in different page
-
-**DONE:**
   - [x] Parse the text input
   - [x] Change the response message based on the status code
   - [x] Create a page for `guestBook`

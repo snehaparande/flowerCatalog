@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const pageNotFound = ({ uri }, response) => {
   response.statusCode = 404;
   response.addHeader('Content-Type', 'text/plain');
@@ -19,30 +21,46 @@ const isValidComment = ({ name, comment }) => {
   return false;
 };
 
-const addComment = ({ name, comment }) => {
+const addComment = ({ name, comment }, allComments) => {
   const userComment = {
     tiemStamp: new Date,
     name,
     comment
   }
-  console.log(userComment);
+  allComments.push(userComment);
+  return allComments;
+};
+
+const readComments = (commentsFile) => {
+  const commentsAsString = fs.readFileSync(commentsFile, 'utf8');
+  const allComments = JSON.parse(commentsAsString);
+  return allComments;
+};
+
+const writeComments = (jsonComments, commentsFile) => {
+  console.log(jsonComments);
+
+  const stringComments = JSON.stringify(jsonComments);
+  fs.writeFileSync(commentsFile, stringComments, 'utf8');
 };
 
 const commentHandler = (request, response) => {
   const { uri, params } = request;
-  if (uri === '/comment') {
+  if (!uri === '/comment') {
+    return false;
+  }
 
-    if (isValidComment(params)) {
-      addComment(params);
-      response.send('Comment is succesfull!');
-      return true;
-    }
-
-    invalidCommentHandler(request, response)
+  if (!isValidComment(params)) {
+    invalidCommentHandler(request, response);
     return true;
   }
-  return false
-};
+
+  const commentsHistory = readComments('./data/comments.json');
+  const allComments = addComment(params, commentsHistory);
+  writeComments(allComments, './data/comments.json');
+  response.send('Comment is succesfull!');
+  return true;
+}
 
 const createHandler = (handlers) => {
   return (request, response, serverPath) => {

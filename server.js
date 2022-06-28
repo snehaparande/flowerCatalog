@@ -1,5 +1,5 @@
 const { createServer } = require('net');
-const { pageNotFound, commentHandler, createHandler } = require('./handler.js');
+const { pageNotFound, commentHandler, createHandler } = require('./src/handler.js');
 const { parseRequest } = require('./src/requestParser.js');
 const { Response } = require('./src/response.js');
 const { serveFileContent } = require('./src/serveFileContent.js');
