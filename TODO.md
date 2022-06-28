@@ -1,5 +1,5 @@
 **TODO:**
-  - [ ] Bind the `serveFileContent` with `srverPath`
+  - [ ] Use http server
   - [ ] separate the `main` and `server`
   - [ ] Separate the `server` and `application`
   - [ ] Read the comment history once when the server starts
@@ -9,6 +9,7 @@
     * write to file and read from file
   - [ ] Show the comments in different page
 **DONE:**
+  - [x] Bind the `serveFileContent` with `srverPath`
   - [x] Save the comments in JSON file
     * name
     * comment

@@ -13,20 +13,22 @@ const getContentType = (fileName) => {
   return contentTypes[extention];
 };
 
-const serveFileContent = ({ uri }, response, serverPath) => {
-  if (uri === '/') {
-    uri += 'home.html'
-  }
+const createServeFile = (root) => {
+  return ({ uri }, response) => {
+    if (uri === '/') {
+      uri += 'home.html'
+    }
 
-  const fileName = serverPath + uri;
-  if (!fs.existsSync(fileName)) {
-    return false;
-  }
+    const fileName = root + uri;
+    if (!fs.existsSync(fileName)) {
+      return false;
+    }
 
-  const body = fs.readFileSync(fileName);
-  response.addHeader('Content-Type', getContentType(fileName));
-  response.send(body);
-  return true;
+    const body = fs.readFileSync(fileName);
+    response.addHeader('Content-Type', getContentType(fileName));
+    response.send(body);
+    return true;
+  };
 };
 
-module.exports = { serveFileContent };
+module.exports = { createServeFile };

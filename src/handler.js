@@ -9,7 +9,7 @@ const pageNotFound = ({ uri }, response) => {
 
 const invalidCommentHandler = (request, response) => {
   response.statusCode = 301;
-  response.addHeader('Location', '/guestbook.html')
+  response.addHeader('Location', '/guestbook.html');
   response.send('');
   return true;
 };
@@ -23,7 +23,7 @@ const isValidComment = ({ name, comment }) => {
 
 const addComment = ({ name, comment }, allComments) => {
   const userComment = {
-    tiemStamp: new Date,
+    tiemStamp: new Date().toLocaleString(),
     name,
     comment
   }
@@ -37,10 +37,10 @@ const readComments = (commentsFile) => {
   return allComments;
 };
 
-const writeComments = (jsonComments, commentsFile) => {
-  console.log(jsonComments);
+const writeComments = (comments, commentsFile) => {
+  console.log(comments);
 
-  const stringComments = JSON.stringify(jsonComments);
+  const stringComments = JSON.stringify(comments);
   fs.writeFileSync(commentsFile, stringComments, 'utf8');
 };
 
@@ -63,9 +63,9 @@ const commentHandler = (request, response) => {
 }
 
 const createHandler = (handlers) => {
-  return (request, response, serverPath) => {
+  return (request, response) => {
     for (const handler of handlers) {
-      if (handler(request, response, serverPath)) {
+      if (handler(request, response)) {
         return true;
       }
     }
