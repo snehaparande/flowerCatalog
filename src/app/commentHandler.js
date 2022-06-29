@@ -1,16 +1,10 @@
 const fs = require('fs');
-
-const pageNotFound = ({ uri }, response) => {
-  response.statusCode = 404;
-  response.addHeader('Content-Type', 'text/plain');
-  response.send('Page Not Found');
-  return true;
-};
+const { createTable, toHtml } = require('./htmlGenerator.js');
 
 const invalidCommentHandler = (request, response) => {
   response.statusCode = 301;
-  response.addHeader('Location', '/guestbook.html');
-  response.send('');
+  response.setHeader('Location', '/guestbook.html');
+  response.end('');
   return true;
 };
 
@@ -23,7 +17,7 @@ const isValidComment = ({ name, comment }) => {
 
 const addComment = ({ name, comment }, allComments) => {
   const userComment = {
-    tiemStamp: new Date().toLocaleString(),
+    date: new Date().toLocaleString(),
     name,
     comment
   }
@@ -38,43 +32,35 @@ const readComments = (commentsFile) => {
 };
 
 const writeComments = (comments, commentsFile) => {
-  console.log(comments);
-
   const stringComments = JSON.stringify(comments);
   fs.writeFileSync(commentsFile, stringComments, 'utf8');
 };
 
+const showComments = (comments, res) => {
+  const tableHeaders = ['Date', 'Name', 'Comment'];
+  const table = createTable(tableHeaders, comments);
+  const content = toHtml(table);
+  res.end(content);
+};
+
 const commentHandler = (request, response) => {
-  const { uri, params } = request;
-  if (!uri === '/comment') {
+  const pathname = request.uri.pathname;
+  const searchParams = request.queryPrams;
+
+  if (!(pathname === '/comment')) {
     return false;
   }
 
-  if (!isValidComment(params)) {
+  if (!isValidComment(searchParams)) {
     invalidCommentHandler(request, response);
     return true;
   }
 
   const commentsHistory = readComments('./data/comments.json');
-  const allComments = addComment(params, commentsHistory);
+  const allComments = addComment(searchParams, commentsHistory);
   writeComments(allComments, './data/comments.json');
-  response.send('Comment is succesfull!');
+  showComments(allComments, response);
   return true;
 }
 
-const createHandler = (handlers) => {
-  return (request, response) => {
-    for (const handler of handlers) {
-      if (handler(request, response)) {
-        return true;
-      }
-    }
-    return false;
-  };
-};
-
-module.exports = {
-  pageNotFound,
-  commentHandler,
-  createHandler
-}
+module.exports = { commentHandler };

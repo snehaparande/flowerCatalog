@@ -1,14 +1,26 @@
 **TODO:**
-  - [ ] Use http server
-  - [ ] separate the `main` and `server`
-  - [ ] Separate the `server` and `application`
+  - [ ] Add a handler `parseQueryParams` to parse `searchParams`
+  - [ ] Pullout `commentHandler` to `commentHandler` instead of `handler.js`
+  - [ ] Keep the `template` hardcoded
+  - [ ] Take the `dataFilePath` from config
+  - [ ] Validate the request method
   - [ ] Read the comment history once when the server starts
+  - [ ] Show the comments in different page
   - [ ] Think of extracting an entity for guest book
     * addComment(comment)
     * commentsHistory()
     * write to file and read from file
-  - [ ] Show the comments in different page
+
 **DONE:**
+  - [x] Separate the `server` and `application`
+  - [x] Make the `startServer` call the `app`
+  - [x] Take the `root` from config
+  - [x] Pullout `router` to `app.js`
+    - [x] Make `app` take the `config` as input
+
+  - [x] separate the `main` and `server`
+  - [x] Show the comments in different page
+  - [x] Use http server
   - [x] Bind the `serveFileContent` with `srverPath`
   - [x] Save the comments in JSON file
     * name
