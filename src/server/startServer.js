@@ -7,19 +7,9 @@ const getUri = (url) => {
   return new URL(requestUrl);
 };
 
-const toObject = (searchParams) => {
-  const params = {};
-  const entries = searchParams.entries()
-  for (const [name, comment] of entries) {
-    params[name] = comment;
-  }
-  return params;
-};
-
 const startServer = (port, app) => {
   const server = http.createServer((req, res) => {
     req.uri = getUri(req.url);
-    req.queryPrams = toObject(req.uri.searchParams);
     app(req, res);
   });
 

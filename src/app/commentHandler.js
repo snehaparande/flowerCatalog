@@ -45,7 +45,7 @@ const showComments = (comments, res) => {
 
 const commentHandler = (request, response) => {
   const pathname = request.uri.pathname;
-  const searchParams = request.queryPrams;
+  const searchParams = request.searchParams;
 
   if (!(pathname === '/comment')) {
     return false;

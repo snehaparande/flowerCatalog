@@ -1,7 +1,6 @@
 **TODO:**
-  - [ ] Add a handler `parseQueryParams` to parse `searchParams`
-  - [ ] Pullout `commentHandler` to `commentHandler` instead of `handler.js`
-  - [ ] Keep the `template` hardcoded
+  - [ ] Use the template for `guestBook`
+   - [ ] Keep the template hardcoded
   - [ ] Take the `dataFilePath` from config
   - [ ] Validate the request method
   - [ ] Read the comment history once when the server starts
@@ -12,6 +11,8 @@
     * write to file and read from file
 
 **DONE:**
+  - [x] Add a handler `parseQueryParams` to parse `searchParams`
+  - [x] Pullout `commentHandler` to `commentHandler` instead of `handler.js`
   - [x] Separate the `server` and `application`
   - [x] Make the `startServer` call the `app`
   - [x] Take the `root` from config
