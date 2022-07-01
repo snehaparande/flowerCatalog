@@ -16,16 +16,16 @@ const getMimeType = (fileName) => {
 };
 
 const createServeFile = (root) => {
-  return (request, response) => {
+  return (request, response, next) => {
     let pathname = request.uri.pathname;
-    console.log(pathname);
     if (pathname === '/') {
       pathname += 'home.html'
     }
 
     const fileName = root + pathname;
     if (!fs.existsSync(fileName)) {
-      return false;
+      next();
+      return;
     }
 
     const body = fs.readFileSync(fileName);

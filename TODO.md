@@ -1,24 +1,27 @@
 **TODO:**
-  - [ ] Use the template for `guestBook`
-   - [ ] Keep the template hardcoded
   - [ ] Take the `dataFilePath` from config
   - [ ] Validate the request method
   - [ ] Read the comment history once when the server starts
-  - [ ] Show the comments in different page
   - [ ] Think of extracting an entity for guest book
-    * addComment(comment)
-    * commentsHistory()
+    * addComment
+    * commentsHistory
     * write to file and read from file
 
 **DONE:**
-  - [x] Add a handler `parseQueryParams` to parse `searchParams`
+  - [ ] Add feature for hiding the watering Jar image
+  - [x] Add a handler `parseBodyParams` to parse `bodyParams`
+  - [ ] Make router async
+  - [ ] Add `POST` method
+  - [x] Show the comments in same page
+  - [x] Use the template for `guestBook`
+   - [x] Keep the template hardcoded
+  - [x] Add a handler `parseSearchParams` to parse `searchParams`
   - [x] Pullout `commentHandler` to `commentHandler` instead of `handler.js`
   - [x] Separate the `server` and `application`
   - [x] Make the `startServer` call the `app`
   - [x] Take the `root` from config
   - [x] Pullout `router` to `app.js`
     - [x] Make `app` take the `config` as input
-
   - [x] separate the `main` and `server`
   - [x] Show the comments in different page
   - [x] Use http server

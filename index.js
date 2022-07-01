@@ -1,4 +1,4 @@
-const { app } = require("./src/server/app.js");
+const { app, asyncApp } = require("./src/app.js");
 const { startServer } = require("./src/server/startServer.js");
 
 const config = {
@@ -6,4 +6,4 @@ const config = {
   guestBookPath: './data/comments.json'
 };
 
-startServer(80, app(config));
+startServer(8888, asyncApp(config));

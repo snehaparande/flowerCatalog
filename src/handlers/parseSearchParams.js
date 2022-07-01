@@ -1,11 +1,12 @@
-const parseSearchParams = (request, response) => {
+const parseSearchParams = (request, response, next) => {
   const params = {};
   const entries = request.uri.searchParams.entries()
   for (const [name, comment] of entries) {
     params[name] = comment;
   }
   request.searchParams = params;
-  return false;
+  next()
+  return;
 };
 
 module.exports = { parseSearchParams };

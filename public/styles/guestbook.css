@@ -10,11 +10,18 @@ body {
   font-family: serif;
 }
 
+.pagewraper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+}
+
 header {
   display: flex;
   flex-direction: row;
   align-items: baseline;
   justify-content: center;
+  border-bottom: 1px solid black;
   padding: 1em;
 }
 
@@ -25,4 +32,9 @@ header>a {
 header>h1 {
   text-align: center;
   color: orange;
+}
+
+form {
+  padding: 1em;
+  border-bottom: 1px solid black;
 }
