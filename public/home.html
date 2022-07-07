@@ -4,10 +4,12 @@
     <title>Flower Catalog</title>
     <link rel="stylesheet" href="styles/home.css">
     <script>
-      const hideForSometime = () => {
-        const target = document.getElementById('gif');
+      const hideForSometime = (target) => {
         target.style['visibility'] = 'hidden';
-        setTimeout(() => target.style['visibility'] = 'visible', 2000);
+
+        setTimeout(() =>
+          target.style['visibility'] = 'visible',
+          2000);
       };
     </script>
   </head>
@@ -21,7 +23,8 @@
           <li><a href="abeliophyllum.html">Abeliophyllum</a></li>
           <li><a href="ageratum.html">Ageratum</a></li>
         </ul>
-        <img id="gif" onclick="hideForSometime()" src="./resources/animated-flower-image-0021.gif" alt="watering_Jar">
+        <img id="gif" onclick="hideForSometime(event.target)" src="./resources/animated-flower-image-0021.gif"
+          alt="watering_Jar">
         <a href="guestbook">Guest Book</a>
       </nav>
     </div>

@@ -9,7 +9,6 @@ const createObject = (entries) => {
 };
 
 const parseURLEncoding = (urlEncoding) => {
-  console.log(urlEncoding);
   const bodyParams = new URLSearchParams(urlEncoding);
   return createObject(bodyParams.entries());
 };

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { createTable, toHtml } = require('../htmlGenerator.js');
+const { createCheckLogin } = require('./loginHandler.js');
 
 const invalidCommentHandler = (request, response) => {
   response.statusCode = 301;
@@ -44,8 +45,10 @@ const commentsToHtml = (comments) => {
 };
 
 const addCommentHandler = (request, response) => {
+  if (!(request.method === 'POST')) {
+    return false;
+  }
   const searchParams = request.bodyParams;
-  console.log(searchParams);
 
   if (!isValidComment(searchParams)) {
     invalidCommentHandler(request, response);
@@ -63,6 +66,9 @@ const addCommentHandler = (request, response) => {
 };
 
 const showGuestBook = (request, response) => {
+  if (!(request.method === 'GET')) {
+    return false;
+  }
   const templateFile = './src/templates/guestbook.txt';
   const template = fs.readFileSync(templateFile, 'utf8');
   const commentsHistory = readComments('./data/comments.json');
@@ -75,19 +81,28 @@ const showGuestBook = (request, response) => {
   return true;
 };
 
-const guestBookHandler = (request, response, next) => {
-  const pathname = request.uri.pathname;
 
-  if (pathname === '/guestbook' && request.method === 'GET') {
-    return showGuestBook(request, response);
-  }
+const createGuestbookRouter = (sessions) => {
+  return (req, res, next) => {
+    if (!req.uri.pathname.match('/guestbook')) {
+      next();
+      return;
+    }
+    const checkLogin = createCheckLogin(sessions);
 
-  if (pathname === '/comment' && request.method === 'POST') {
-    return addCommentHandler(request, response);
-  }
+    if (checkLogin(req, res)) {
+      return;
+    }
 
-  next();
-  return;
-}
+    if (showGuestBook(req, res)) {
+      return;
+    }
 
-module.exports = { guestBookHandler };
+    if (addCommentHandler(req, res)) {
+      return;
+    }
+    next();
+  };
+};
+
+module.exports = { createGuestbookRouter };

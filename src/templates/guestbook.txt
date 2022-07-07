@@ -14,7 +14,7 @@
 
       <div class="comment">
         <h2>Leave a comment</h2>
-        <form action="comment" method="post">
+        <form action="guestbook" method="post">
           <div>
             <label for="name">Name:</label>
             <input type="text" name="name" id="name">
