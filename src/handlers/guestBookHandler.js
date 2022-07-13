@@ -100,7 +100,6 @@ const createGuestbookRouter = (sessions) => {
     ];
 
     const guestbookRouter = createRouter(guestBookHandlers);
-
     return guestbookRouter(req, res, next);
   };
 };

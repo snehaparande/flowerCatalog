@@ -10,10 +10,6 @@ describe('GET /unknown', () => {
     request(app(config, {}))
       .get('/unknown')
       .expect('content-length', '14')
-      .expect(404)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(404, done)
   });
 });

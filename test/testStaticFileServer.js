@@ -10,16 +10,10 @@ describe('GET /', () => {
     }
     request(app(config, {}))
       .get('/')
-      .expect((res) => {
-        assert.ok(res.text.includes('<title>Flower Catalog</title>'));
-      })
+      .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', 'text/html')
       .expect('content-length', '853')
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(200, done)
   });
 });
 
@@ -31,16 +25,10 @@ describe('GET /home.html', () => {
     }
     request(app(config, {}))
       .get('/home.html')
-      .expect((res) => {
-        assert.ok(res.text.includes('<title>Flower Catalog</title>'));
-      })
+      .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', 'text/html')
       .expect('content-length', '853')
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(200, done)
   });
 });
 
@@ -52,16 +40,10 @@ describe('GET /abeliophyllum.html', () => {
     }
     request(app(config, {}))
       .get('/abeliophyllum.html')
-      .expect((res) => {
-        assert.ok(res.text.includes('<title>Abeliophyllum</title>'));
-      })
+      .expect(/<title>Abeliophyllum<\/title>/)
       .expect('content-type', 'text/html')
       .expect('content-length', '1565')
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(200, done)
   });
 });
 
@@ -73,16 +55,10 @@ describe('GET /ageratum.html', () => {
     }
     request(app(config, {}))
       .get('/ageratum.html')
-      .expect((res) => {
-        assert.ok(res.text.includes('<title>Ageratum</title>'));
-      })
+      .expect(/<title>Ageratum<\/title>/)
       .expect('content-type', 'text/html')
       .expect('content-length', '1216')
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(200, done)
   });
 });
 
@@ -94,15 +70,9 @@ describe('GET /login.html', () => {
     }
     request(app(config, {}))
       .get('/login.html')
-      .expect((res) => {
-        assert.ok(res.text.includes('<title>Login</title>'));
-      })
+      .expect(/<title>Login<\/title>/)
       .expect('content-type', 'text/html')
       .expect('content-length', '273')
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        return done();
-      })
+      .expect(200, done)
   });
 });
