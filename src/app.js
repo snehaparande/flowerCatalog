@@ -1,7 +1,7 @@
 const { notFoundHandler } = require('./handlers/notFoundHandler.js');
 const { createServeFile } = require('./handlers/serveFileContent.js');
 const { parseSearchParams } = require('./handlers/parseSearchParams.js');
-const { logRequestHandler } = require('./handlers/logRequestHandler.js');
+const { createRequestLogger } = require('./handlers/logRequestHandler.js');
 const { createRouter } = require('./handlers/createRouter.js');
 const { parseUri } = require('./handlers/parseUri.js');
 const { parseBodyParams } = require('./handlers/parseBodyParams.js');
@@ -9,11 +9,12 @@ const { parseCookie } = require('./handlers/cookieParsers.js');
 const { createSessionHandler } = require('./handlers/sessionHandler.js');
 const { createGuestbookRouter } = require('./handlers/guestBookHandler.js');
 const { createLogoutHandler } = require('./handlers/logoutHandler.js');
+const { connected } = require('process');
 
-const asyncApp = (config, sessions) => {
+const app = (config, sessions) => {
   const handlers = [
     parseUri,
-    logRequestHandler,
+    createRequestLogger(config.logger),
     createServeFile(config.root),
     parseCookie,
     parseSearchParams,
@@ -27,4 +28,4 @@ const asyncApp = (config, sessions) => {
   return createRouter(handlers);
 };
 
-module.exports = { asyncApp };
+module.exports = { app };

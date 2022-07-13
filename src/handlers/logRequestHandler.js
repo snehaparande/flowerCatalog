@@ -1,7 +1,9 @@
-const logRequestHandler = (request, response, next) => {
-  console.log(request.method, request.uri.pathname);
-  next();
-  return;
+const createRequestLogger = (logger) => {
+  return (request, response, next) => {
+    logger(request.method, request.uri.pathname);
+    next();
+    return;
+  };
 };
 
-module.exports = { logRequestHandler };
+module.exports = { createRequestLogger };
