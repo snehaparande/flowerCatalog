@@ -23,7 +23,9 @@ const createSessionHandler = (sessions) => {
       maxAge: 30
     };
 
-    res.setHeader('set-cookie', `id=${username}; Max-Age=30`);
+    res.setHeader('set-cookie',
+      `id=${username}; Max-Age=${sessions[username].maxAge}`
+    );
 
     res.statusCode = 302;
     res.setHeader('Location', '/guestbook');

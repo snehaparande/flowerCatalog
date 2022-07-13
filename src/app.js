@@ -8,10 +8,9 @@ const { parseBodyParams } = require('./handlers/parseBodyParams.js');
 const { parseCookie } = require('./handlers/cookieParsers.js');
 const { createSessionHandler } = require('./handlers/sessionHandler.js');
 const { createGuestbookRouter } = require('./handlers/guestBookHandler.js');
+const { createLogoutHandler } = require('./handlers/logoutHandler.js');
 
-const asyncApp = (config) => {
-  const sessions = {};
-
+const asyncApp = (config, sessions) => {
   const handlers = [
     parseUri,
     logRequestHandler,

@@ -6,4 +6,6 @@ const config = {
   guestBookPath: './data/comments.json'
 };
 
-startServer(8888, asyncApp(config));
+const sessions = {};
+
+startServer(8888, asyncApp(config, sessions));

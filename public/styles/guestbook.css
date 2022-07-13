@@ -34,7 +34,16 @@ header>h1 {
   color: orange;
 }
 
+#logout {
+  font-size: 1.3em;
+  text-align: right;
+}
+
 form {
   padding: 1em;
   border-bottom: 1px solid black;
+}
+
+.history>table {
+  border-spacing: 1em;
 }

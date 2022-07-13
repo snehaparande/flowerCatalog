@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { createTable, toHtml } = require('../htmlGenerator.js');
+const { createRouter } = require('./createRouter.js');
 const { createCheckLogin } = require('./loginHandler.js');
 
 const invalidCommentHandler = (request, response) => {
@@ -44,15 +45,16 @@ const commentsToHtml = (comments) => {
   return content;
 };
 
-const addCommentHandler = (request, response) => {
-  if (!(request.method === 'POST')) {
-    return false;
+const addCommentHandler = (request, response, next) => {
+  if (request.method !== 'POST') {
+    next();
+    return;
   }
   const searchParams = request.bodyParams;
 
   if (!isValidComment(searchParams)) {
     invalidCommentHandler(request, response);
-    return true;
+    return;
   }
 
   const commentsHistory = readComments('./data/comments.json');
@@ -65,9 +67,10 @@ const addCommentHandler = (request, response) => {
 
 };
 
-const showGuestBook = (request, response) => {
-  if (!(request.method === 'GET')) {
-    return false;
+const showGuestBook = (request, response, next) => {
+  if (request.method !== 'GET') {
+    next();
+    return;
   }
   const templateFile = './src/templates/guestbook.txt';
   const template = fs.readFileSync(templateFile, 'utf8');
@@ -78,7 +81,7 @@ const showGuestBook = (request, response) => {
   response.setHeader('content-type', 'text/html');
   response.end(content);
 
-  return true;
+  return;
 };
 
 
@@ -88,20 +91,17 @@ const createGuestbookRouter = (sessions) => {
       next();
       return;
     }
-    const checkLogin = createCheckLogin(sessions);
 
-    if (checkLogin(req, res)) {
-      return;
-    }
+    const guestBookHandlers = [
+      createCheckLogin(sessions),
+      showGuestBook,
+      addCommentHandler,
+      next
+    ];
 
-    if (showGuestBook(req, res)) {
-      return;
-    }
+    const guestbookRouter = createRouter(guestBookHandlers);
 
-    if (addCommentHandler(req, res)) {
-      return;
-    }
-    next();
+    return guestbookRouter(req, res, next);
   };
 };
 
