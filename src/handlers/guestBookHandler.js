@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { createTable, toHtml } = require('../htmlGenerator.js');
 const { createRouter } = require('./createRouter.js');
 const { createCheckLogin } = require('./loginHandler.js');
@@ -27,13 +26,13 @@ const addComment = ({ name, comment }, allComments) => {
   return allComments;
 };
 
-const readComments = (commentsFile) => {
+const readComments = (commentsFile, fs) => {
   const commentsAsString = fs.readFileSync(commentsFile, 'utf8');
   const allComments = JSON.parse(commentsAsString);
   return allComments;
 };
 
-const writeComments = (comments, commentsFile) => {
+const writeComments = (comments, commentsFile, fs) => {
   const stringComments = JSON.stringify(comments);
   fs.writeFileSync(commentsFile, stringComments, 'utf8');
 };
@@ -45,47 +44,52 @@ const commentsToHtml = (comments) => {
   return content;
 };
 
-const addCommentHandler = (request, response, next) => {
-  if (request.method !== 'POST') {
-    next();
-    return;
-  }
-  const searchParams = request.bodyParams;
+const createAddCommentHandler = (guestBookPath, fs) => {
+  return (request, response, next) => {
+    if (request.method !== 'POST') {
+      next();
+      return;
+    }
+    const searchParams = request.bodyParams;
 
-  if (!isValidComment(searchParams)) {
-    invalidCommentHandler(request, response);
-    return;
-  }
+    if (!isValidComment(searchParams)) {
+      invalidCommentHandler(request, response);
+      return;
+    }
 
-  const commentsHistory = readComments('./data/comments.json');
-  const allComments = addComment(searchParams, commentsHistory);
-  writeComments(allComments, './data/comments.json');
-  response.statusCode = 302;
-  response.setHeader('Location', '/guestbook');
-  response.end('');
-  return true;
+    const commentsHistory = readComments(guestBookPath, fs);
+    const allComments = addComment(searchParams, commentsHistory);
+    writeComments(allComments, guestBookPath, fs);
+    response.statusCode = 302;
+    response.setHeader('Location', '/guestbook');
+    response.end('');
+    return true;
 
+  };
 };
 
-const showGuestBook = (request, response, next) => {
-  if (request.method !== 'GET') {
-    next();
+const createShowGuestBook = (guestBookPath, fs) => {
+  return (request, response, next) => {
+    if (request.method !== 'GET') {
+      next();
+      return;
+    }
+    const templateFile = './src/templates/guestbook.txt';
+    const template = fs.readFileSync(templateFile, 'utf8');
+    const commentsHistory = readComments(guestBookPath, fs);
+    const htmlComments = commentsToHtml(commentsHistory);
+
+    const content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);
+    response.setHeader('content-type', 'text/html');
+    response.end(content);
+
     return;
-  }
-  const templateFile = './src/templates/guestbook.txt';
-  const template = fs.readFileSync(templateFile, 'utf8');
-  const commentsHistory = readComments('./data/comments.json');
-  const htmlComments = commentsToHtml(commentsHistory);
-
-  const content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);
-  response.setHeader('content-type', 'text/html');
-  response.end(content);
-
-  return;
+  };
 };
 
 
-const createGuestbookRouter = (sessions) => {
+
+const createGuestbookRouter = (guestBookPath, sessions, fs) => {
   return (req, res, next) => {
     if (!req.uri.pathname.match('/guestbook')) {
       next();
@@ -94,8 +98,8 @@ const createGuestbookRouter = (sessions) => {
 
     const guestBookHandlers = [
       createCheckLogin(sessions),
-      showGuestBook,
-      addCommentHandler,
+      createShowGuestBook(guestBookPath, fs),
+      createAddCommentHandler(guestBookPath, fs),
       next
     ];
 

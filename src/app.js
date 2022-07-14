@@ -11,17 +11,17 @@ const { createGuestbookRouter } = require('./handlers/guestBookHandler.js');
 const { createLogoutHandler } = require('./handlers/logoutHandler.js');
 const { connected } = require('process');
 
-const app = (config, sessions) => {
+const app = (config, sessions, logger, fs) => {
   const handlers = [
     parseUri,
-    createRequestLogger(config.logger),
+    createRequestLogger(logger),
     createServeFile(config.root),
     parseCookie,
     parseSearchParams,
     parseBodyParams,
     createSessionHandler(sessions),
     createLogoutHandler(sessions),
-    createGuestbookRouter(sessions),
+    createGuestbookRouter(config.guestBookPath, sessions, fs),
     notFoundHandler
   ];
 

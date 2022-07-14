@@ -1,11 +1,12 @@
 const request = require('supertest');
 const { app } = require('../src/app');
+const fs = require('fs');
 
 describe('GET /guestbook', () => {
   it('Should respond with status code 200', (done) => {
     const config = {
       root: './public',
-      logger: () => { }
+      guestBookPath: './data/comments.json',
     }
     const sessions = {
       name1: {
@@ -15,7 +16,7 @@ describe('GET /guestbook', () => {
       }
     };
 
-    request(app(config, sessions))
+    request(app(config, sessions, () => { }, fs))
       .get('/guestbook')
       .set('Cookie', 'id=name1')
 
@@ -24,11 +25,11 @@ describe('GET /guestbook', () => {
   });
 });
 
-describe('GET /guestbook', () => {
+describe('POST /guestbook', () => {
   it('Should respond with status code 200', (done) => {
     const config = {
       root: './public',
-      logger: () => { }
+      guestBookPath: './data/comments.json',
     }
     const sessions = {
       name1: {
@@ -38,7 +39,7 @@ describe('GET /guestbook', () => {
       }
     };
 
-    request(app(config, sessions))
+    request(app(config, sessions, () => { }, fs))
       .post('/guestbook')
       .set('Cookie', 'id=name1')
       .send('name=name1&comment=hello')

@@ -1,4 +1,4 @@
-
+const fs = require('fs');
 const request = require('supertest');
 const { app } = require('../src/app');
 
@@ -6,10 +6,10 @@ describe('GET /login', () => {
   it('Should create a session for user and redirect to guestbook', (done) => {
     const config = {
       root: './public',
-      logger: () => { }
+      guestBookPath: './data/comments.json',
     }
 
-    request(app(config, {}))
+    request(app(config, {}, () => { }, fs))
       .post('/login')
       .send('username=name1')
 
@@ -24,10 +24,10 @@ describe('GET /logout', () => {
   it('Should create a session for user and redirect to guestbook', (done) => {
     const config = {
       root: './public',
-      logger: () => { }
+      guestBookPath: './data/comments.json',
     }
 
-    request(app(config, {}))
+    request(app(config, {}, () => { }, fs))
       .get('/logout')
       .set('Cookie', 'id=name1; Max-Age=30')
       .expect('content-length', '0')
