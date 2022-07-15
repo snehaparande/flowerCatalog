@@ -7,13 +7,6 @@ const invalidCommentHandler = (request, response) => {
   return true;
 };
 
-const isValidComment = ({ name, comment }) => {
-  if (name && comment) {
-    return true;
-  }
-  return false;
-};
-
 const addComment = ({ name, comment }, allComments) => {
   const userComment = {
     date: new Date().toLocaleString(),
@@ -43,38 +36,38 @@ const commentsToHtml = (comments) => {
 };
 
 const createAddCommentHandler = (guestBookPath, fs) => {
-  return (request, response, next) => {
+  return (req, res, next) => {
 
-    const searchParams = request.body;
+    const { comment } = req.body;
 
-    if (!isValidComment(searchParams)) {
-      invalidCommentHandler(request, response);
+    if (!comment) {
+      invalidCommentHandler(req, res);
       return;
     }
 
     const commentsHistory = readComments(guestBookPath, fs);
-    const allComments = addComment(searchParams, commentsHistory);
+    const allComments = addComment({ name: req.session.username, comment }, commentsHistory);
     writeComments(allComments, guestBookPath, fs);
-    response.status(302);
-    response.redirect('/guestbook');
-    response.end();
+    res.status(302);
+    res.redirect('/guestbook');
+    res.end();
     return true;
 
   };
 };
 
 const createShowGuestBook = (guestBookPath, fs) => {
-  return (request, response, next) => {
-    console.log('inside show guest book');
-    const templateFile = './src/templates/guestbook.txt';
+  return (req, res, next) => {
+    const templateFile = './src/templates/guestbook.html';
     const template = fs.readFileSync(templateFile, 'utf8');
     const commentsHistory = readComments(guestBookPath, fs);
     const htmlComments = commentsToHtml(commentsHistory);
 
-    const content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);
-    response.set('content-type', 'text/html');
-    response.send(content);
-    response.end();
+    let content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);
+    content = content.replace(/__USERNAME__/, req.session.username);
+    res.set('content-type', 'text/html');
+    res.send(content);
+    res.end();
 
     return;
   };

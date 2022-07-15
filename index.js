@@ -8,7 +8,7 @@ const main = (logger, fs) => {
   };
   const sessions = {};
 
-  const app = createApp(config, sessions, console.log, fs);
+  const app = createApp(config, sessions, logger, fs);
   app.listen(8888, () => console.log('Listening at 8888'));
 };
 

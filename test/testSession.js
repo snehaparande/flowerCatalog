@@ -29,7 +29,7 @@ describe('GET /logout', () => {
 
     request(createApp(config, {}, () => { }, fs))
       .get('/logout')
-      .set('Cookie', /id=name1/)
+      .set('Cookie', /id=/)
       .expect('content-length', '33')
       .expect('location', '/index.html')
       .expect(302, done)

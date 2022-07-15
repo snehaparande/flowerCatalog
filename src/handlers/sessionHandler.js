@@ -10,6 +10,7 @@ const createSessionHandler = (sessions) => {
     sessions[sessionId] = {
       time,
       sessionId,
+      username: req.body.username,
       maxAge: 30
     };
 

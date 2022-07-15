@@ -8,17 +8,19 @@ describe('GET /guestbook', () => {
       root: './public',
       guestBookPath: './data/comments.json',
     }
-    const sessions = {
-      name1: {
-        sessionId: 'name1',
-        time: new Date(),
-        maxAge: 30
-      }
-    };
+    const time = new Date();
+    const sessionId = time.valueOf();
+    const sessions = {};
+    sessions[sessionId] = {
+      sessionId,
+      time,
+      maxAge: 30,
+      username: 'name1'
+    }
 
     request(createApp(config, sessions, () => { }, fs))
       .get('/guestbook')
-      .set('Cookie', 'id=name1')
+      .set('Cookie', `id=${sessionId}`)
 
       .expect('content-type', /text\/html/)
       .expect(200, done)
@@ -31,18 +33,20 @@ describe('POST /guestbook', () => {
       root: './public',
       guestBookPath: './data/comments.json',
     }
-    const sessions = {
-      name1: {
-        sessionId: 'name1',
-        time: new Date(),
-        maxAge: 30
-      }
-    };
+    const time = new Date();
+    const sessionId = time.valueOf();
+    const sessions = {};
+    sessions[sessionId] = {
+      sessionId,
+      time,
+      maxAge: 30,
+      username: 'name1'
+    }
 
     request(createApp(config, sessions, () => { }, fs))
       .post('/guestbook')
-      .set('Cookie', 'id=name1')
-      .send('name=name1&comment=hello')
+      .set('Cookie', `id=${sessionId}`)
+      .send('comment=hello')
 
       .expect('location', '/guestbook')
       .expect(302, done)
