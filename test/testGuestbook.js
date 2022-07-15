@@ -6,6 +6,7 @@ describe('GET /guestbook', () => {
   const config = {
     root: './public',
     guestBookPath: './test/dummy.json',
+    guestBookTemplate: './src/templates/guestbook.html'
   }
   const time = new Date();
   const sessionId = time.valueOf();
@@ -28,7 +29,7 @@ describe('GET /guestbook', () => {
         .expect(200, done)
     });
 
-  it('Should should redirect to the login.html page if no cookie is present',
+  it('Should redirect to the login.html page if no cookie is present',
     (done) => {
 
       request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
@@ -43,6 +44,7 @@ describe('POST /guestbook', () => {
   const config = {
     root: './public',
     guestBookPath: './test/dummy.json',
+    guestBookTemplate: './src/templates/guestbook.html'
   }
   const time = new Date();
   const sessionId = time.valueOf();

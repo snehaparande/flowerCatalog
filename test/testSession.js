@@ -6,6 +6,7 @@ describe('POST /login', () => {
   const config = {
     root: './public',
     guestBookPath: './test/dummy.json',
+    guestBookTemplate: './src/templates/guestbook.html'
   }
   it('Should create a session for user and redirect to guestbook', (done) => {
 
@@ -30,10 +31,11 @@ describe('POST /login', () => {
 });
 
 describe('GET /logout', () => {
-  it('Should create a session for user and redirect to guestbook', (done) => {
+  it('Should clear the session and redirect to index page', (done) => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))

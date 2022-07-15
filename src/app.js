@@ -10,8 +10,7 @@ const { createShowGuestBook, createAddCommentHandler, invalidCommentHandler } =
   require('./handlers/guestBookHandler.js');
 
 const readComments = (path, readFile) => {
-  const stringComments = readFile(path, 'utf8');
-  return JSON.parse(stringComments);
+  return readFile(path, 'utf8');
 }
 
 const persist = (path, writeFile, comments) => {
@@ -20,10 +19,6 @@ const persist = (path, writeFile, comments) => {
 };
 
 const createApp = (config, sessions, logger, readFile, writeFile) => {
-  const persistToFile = persist.bind(null, config.guestBookPath, writeFile);
-  const comments = readComments(config.guestBookPath, readFile);
-  const guestBook = new GuestBook(comments);
-
   const app = express();
 
   app.use(createRequestLogger(logger));
@@ -33,9 +28,15 @@ const createApp = (config, sessions, logger, readFile, writeFile) => {
   app.post('/login', createSessionHandler(sessions));
   app.get('/logout', createLogoutHandler(sessions));
 
+  const persistToFile = persist.bind(null, config.guestBookPath, writeFile);
+  const comments = JSON.parse(readComments(config.guestBookPath, readFile));
+  const guestBook = new GuestBook(comments);
+  const template = readComments(config.guestBookTemplate, readFile);
+
+
   const router = express.Router();
   router.use(createCheckLogin(sessions));
-  router.get('/', createShowGuestBook(guestBook));
+  router.get('/', createShowGuestBook(guestBook, template));
   router.post('/',
     createAddCommentHandler(guestBook, persistToFile),
     invalidCommentHandler

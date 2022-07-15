@@ -7,6 +7,7 @@ describe('GET /unknown', () => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/unknown')

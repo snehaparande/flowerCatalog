@@ -35,10 +35,8 @@ const createAddCommentHandler = (guestBook, persistToFile) => {
   };
 };
 
-const createShowGuestBook = (guestBook) => {
+const createShowGuestBook = (guestBook, template) => {
   return (req, res, next) => {
-    const templateFile = './src/templates/guestbook.html';
-    const template = fs.readFileSync(templateFile, 'utf8');
     const htmlComments = commentsToHtml(guestBook.comments);
 
     let content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);

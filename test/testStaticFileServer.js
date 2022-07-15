@@ -4,10 +4,11 @@ const fs = require('fs');
 const assert = require('assert');
 
 describe('GET /', () => {
-  it('Should serve the home page for /', (done) => {
+  it('Should serve the index page for /', (done) => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
@@ -24,6 +25,7 @@ describe('GET /index.html', () => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
@@ -40,6 +42,7 @@ describe('GET /abeliophyllum.html', () => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
@@ -56,6 +59,7 @@ describe('GET /ageratum.html', () => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
@@ -72,6 +76,7 @@ describe('GET /login.html', () => {
     const config = {
       root: './public',
       guestBookPath: './test/dummy.json',
+      guestBookTemplate: './src/templates/guestbook.html'
     }
 
     request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))

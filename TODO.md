@@ -1,9 +1,9 @@
-**TODO:**
-- [ ] remove the dependency of readFile for template from `showGuestBookHandlr`
-- [ ] Create api router
-- [ ] Add xhr for add comments in guestBook
+# TODO:
+  - [ ] Create api router
+  - [ ] Add xhr for add comments in guestBook
 
-**DONE:**
+# DONE:
+  - [x] remove the dependency of readFile for template from `showGuestBookHandlr`
   - [x] Read the comment history once when the app starts
   - [x] Extract an entity for guest book
     * addComment
