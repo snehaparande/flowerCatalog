@@ -14,7 +14,7 @@ describe('GET /', () => {
       .get('/')
       .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', /text\/html/)
-      .expect('content-length', '853')
+      .expect('content-length', '854')
       .expect(200, done)
   });
 });
@@ -30,7 +30,7 @@ describe('GET /index.html', () => {
       .get('/index.html')
       .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', /text\/html/)
-      .expect('content-length', '853')
+      .expect('content-length', '854')
       .expect(200, done)
   });
 });

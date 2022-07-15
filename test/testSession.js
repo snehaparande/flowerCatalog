@@ -14,7 +14,7 @@ describe('GET /login', () => {
       .send('username=name1')
 
       .expect('content-length', '32')
-      .expect('set-cookie', /id=name1/)
+      .expect('set-cookie', /id=/)
       .expect('location', '/guestbook')
       .expect(302, done)
   });
