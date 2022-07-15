@@ -1,11 +1,13 @@
 **TODO:**
-  - [ ] Read the comment history once when the server starts
-  - [ ] Think of extracting an entity for guest book
-    * addComment
-    * commentsHistory
-    * write to file and read from file
+- [ ] remove the dependency of readFile for template from `showGuestBookHandlr`
+- [ ] Create api router
+- [ ] Add xhr for add comments in guestBook
 
 **DONE:**
+  - [x] Read the comment history once when the app starts
+  - [x] Extract an entity for guest book
+    * addComment
+    * commentsHistory
   - [x] Use Express module for middlewares
   - [x] Test the endpoints using Supertest
   - [x] Validate the request method

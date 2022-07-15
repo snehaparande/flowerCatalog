@@ -5,6 +5,13 @@ const createSessionHandler = (sessions) => {
       return;
     }
 
+    if (!req.body.username) {
+      res.status(302);
+      res.redirect('/login.html');
+      res.end();
+      return;
+    }
+
     const time = new Date();
     const sessionId = time.valueOf();
     sessions[sessionId] = {

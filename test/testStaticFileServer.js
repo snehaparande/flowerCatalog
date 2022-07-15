@@ -7,10 +7,10 @@ describe('GET /', () => {
   it('Should serve the home page for /', (done) => {
     const config = {
       root: './public',
-      guestBookPath: './data/comments.json',
+      guestBookPath: './test/dummy.json',
     }
 
-    request(createApp(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/')
       .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', /text\/html/)
@@ -23,10 +23,10 @@ describe('GET /index.html', () => {
   it('Should serve the index page', (done) => {
     const config = {
       root: './public',
-      guestBookPath: './data/comments.json',
+      guestBookPath: './test/dummy.json',
     }
 
-    request(createApp(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/index.html')
       .expect(/<title>Flower Catalog<\/title>/)
       .expect('content-type', /text\/html/)
@@ -39,10 +39,10 @@ describe('GET /abeliophyllum.html', () => {
   it('Should serve the Abeliophyllum page', (done) => {
     const config = {
       root: './public',
-      guestBookPath: './data/comments.json',
+      guestBookPath: './test/dummy.json',
     }
 
-    request(createApp(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/abeliophyllum.html')
       .expect(/<title>Abeliophyllum<\/title>/)
       .expect('content-type', /text\/html/)
@@ -55,10 +55,10 @@ describe('GET /ageratum.html', () => {
   it('Should serve the Ageratum page', (done) => {
     const config = {
       root: './public',
-      guestBookPath: './data/comments.json',
+      guestBookPath: './test/dummy.json',
     }
 
-    request(createApp(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/ageratum.html')
       .expect(/<title>Ageratum<\/title>/)
       .expect('content-type', /text\/html/)
@@ -71,10 +71,10 @@ describe('GET /login.html', () => {
   it('Should serve the login page', (done) => {
     const config = {
       root: './public',
-      guestBookPath: './data/comments.json',
+      guestBookPath: './test/dummy.json',
     }
 
-    request(createApp(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs.readFileSync, fs.writeFileSync))
       .get('/login.html')
       .expect(/<title>Login<\/title>/)
       .expect('content-type', /text\/html/)
