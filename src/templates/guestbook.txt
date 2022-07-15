@@ -8,7 +8,7 @@
   <body>
     <div class="pagewraper">
       <header>
-        <a href="home.html">&lt;&lt;</a>
+        <a href="index.html">&lt;&lt;</a>
         <h1>Guest Book</h1>
         <a id="logout" href="/logout">Logout</a>
       </header>

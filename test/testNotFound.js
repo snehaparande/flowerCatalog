@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { app } = require('../src/app');
+const { createApp } = require('../src/app');
 const fs = require('fs');
 
 describe('GET /unknown', () => {
@@ -8,9 +8,9 @@ describe('GET /unknown', () => {
       root: './public',
       guestBookPath: './data/comments.json',
     }
-    request(app(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs))
       .get('/unknown')
-      .expect('content-length', '14')
+      .expect('content-length', '146')
       .expect(404, done)
   });
 });

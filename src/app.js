@@ -1,31 +1,30 @@
-const { notFoundHandler } = require('./handlers/notFoundHandler.js');
-const { createServeFile } = require('./handlers/serveFileContent.js');
-const { parseSearchParams } = require('./handlers/parseSearchParams.js');
+const fs = require('fs');
+const express = require('express');
 const { createRequestLogger } = require('./handlers/logRequestHandler.js');
-const { createRouter } = require('./handlers/createRouter.js');
-const { parseUri } = require('./handlers/parseUri.js');
-const { parseBodyParams } = require('./handlers/parseBodyParams.js');
 const { parseCookie } = require('./handlers/cookieParsers.js');
 const { createSessionHandler } = require('./handlers/sessionHandler.js');
-const { createGuestbookRouter } = require('./handlers/guestBookHandler.js');
+const { createCheckLogin } = require('./handlers/loginHandler.js');
 const { createLogoutHandler } = require('./handlers/logoutHandler.js');
-const { connected } = require('process');
+const { createShowGuestBook, createAddCommentHandler } =
+  require('./handlers/guestBookHandler.js');
 
-const app = (config, sessions, logger, fs) => {
-  const handlers = [
-    parseUri,
-    createRequestLogger(logger),
-    createServeFile(config.root),
-    parseCookie,
-    parseSearchParams,
-    parseBodyParams,
-    createSessionHandler(sessions),
-    createLogoutHandler(sessions),
-    createGuestbookRouter(config.guestBookPath, sessions, fs),
-    notFoundHandler
-  ];
+const createApp = (config, sessions, logger, fs) => {
+  const app = express();
 
-  return createRouter(handlers);
+  app.use(createRequestLogger(logger));
+  app.use(express.static(config.root));
+  app.use(express.urlencoded({ extended: true }));
+  app.use(parseCookie);
+  app.post('/login', createSessionHandler(sessions));
+  app.get('/logout', createLogoutHandler(sessions));
+
+  const router = express.Router();
+  router.use(createCheckLogin(sessions));
+  router.get('/', createShowGuestBook(config.guestBookPath, fs));
+  router.post('/', createAddCommentHandler(config.guestBookPath, fs));
+  app.use('/guestbook', router);
+
+  return app;
 };
 
-module.exports = { app };
+module.exports = { createApp };

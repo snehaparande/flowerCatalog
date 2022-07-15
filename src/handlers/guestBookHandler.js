@@ -1,6 +1,4 @@
 const { createTable, toHtml } = require('../htmlGenerator.js');
-const { createRouter } = require('./createRouter.js');
-const { createCheckLogin } = require('./loginHandler.js');
 
 const invalidCommentHandler = (request, response) => {
   response.statusCode = 301;
@@ -46,11 +44,8 @@ const commentsToHtml = (comments) => {
 
 const createAddCommentHandler = (guestBookPath, fs) => {
   return (request, response, next) => {
-    if (request.method !== 'POST') {
-      next();
-      return;
-    }
-    const searchParams = request.bodyParams;
+
+    const searchParams = request.body;
 
     if (!isValidComment(searchParams)) {
       invalidCommentHandler(request, response);
@@ -60,9 +55,9 @@ const createAddCommentHandler = (guestBookPath, fs) => {
     const commentsHistory = readComments(guestBookPath, fs);
     const allComments = addComment(searchParams, commentsHistory);
     writeComments(allComments, guestBookPath, fs);
-    response.statusCode = 302;
-    response.setHeader('Location', '/guestbook');
-    response.end('');
+    response.status(302);
+    response.redirect('/guestbook');
+    response.end();
     return true;
 
   };
@@ -70,42 +65,19 @@ const createAddCommentHandler = (guestBookPath, fs) => {
 
 const createShowGuestBook = (guestBookPath, fs) => {
   return (request, response, next) => {
-    if (request.method !== 'GET') {
-      next();
-      return;
-    }
+    console.log('inside show guest book');
     const templateFile = './src/templates/guestbook.txt';
     const template = fs.readFileSync(templateFile, 'utf8');
     const commentsHistory = readComments(guestBookPath, fs);
     const htmlComments = commentsToHtml(commentsHistory);
 
     const content = template.replace(/__COMMENTS_HISTORY__/, htmlComments);
-    response.setHeader('content-type', 'text/html');
-    response.end(content);
+    response.set('content-type', 'text/html');
+    response.send(content);
+    response.end();
 
     return;
   };
 };
 
-
-
-const createGuestbookRouter = (guestBookPath, sessions, fs) => {
-  return (req, res, next) => {
-    if (!req.uri.pathname.match('/guestbook')) {
-      next();
-      return;
-    }
-
-    const guestBookHandlers = [
-      createCheckLogin(sessions),
-      createShowGuestBook(guestBookPath, fs),
-      createAddCommentHandler(guestBookPath, fs),
-      next
-    ];
-
-    const guestbookRouter = createRouter(guestBookHandlers);
-    return guestbookRouter(req, res, next);
-  };
-};
-
-module.exports = { createGuestbookRouter };
+module.exports = { createShowGuestBook, createAddCommentHandler };

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const request = require('supertest');
-const { app } = require('../src/app');
+const { createApp } = require('../src/app');
 
 describe('GET /login', () => {
   it('Should create a session for user and redirect to guestbook', (done) => {
@@ -9,12 +9,12 @@ describe('GET /login', () => {
       guestBookPath: './data/comments.json',
     }
 
-    request(app(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs))
       .post('/login')
       .send('username=name1')
 
-      .expect('content-length', '0')
-      .expect('set-cookie', 'id=name1; Max-Age=30')
+      .expect('content-length', '32')
+      .expect('set-cookie', /id=name1/)
       .expect('location', '/guestbook')
       .expect(302, done)
   });
@@ -27,11 +27,11 @@ describe('GET /logout', () => {
       guestBookPath: './data/comments.json',
     }
 
-    request(app(config, {}, () => { }, fs))
+    request(createApp(config, {}, () => { }, fs))
       .get('/logout')
-      .set('Cookie', 'id=name1; Max-Age=30')
-      .expect('content-length', '0')
-      .expect('location', '/home.html')
+      .set('Cookie', /id=name1/)
+      .expect('content-length', '33')
+      .expect('location', '/index.html')
       .expect(302, done)
   });
 });

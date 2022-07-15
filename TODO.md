@@ -1,6 +1,4 @@
 **TODO:**
-  - [ ] Take the `dataFilePath` from config
-  - [ ] Validate the request method
   - [ ] Read the comment history once when the server starts
   - [ ] Think of extracting an entity for guest book
     * addComment
@@ -8,10 +6,14 @@
     * write to file and read from file
 
 **DONE:**
-  - [ ] Add feature for hiding the watering Jar image
+  - [x] Use Express module for middlewares
+  - [x] Test the endpoints using Supertest
+  - [x] Validate the request method
+  - [x] Take the `dataFilePath` from config
+  - [x] Add feature for hiding the watering Jar image
   - [x] Add a handler `parseBodyParams` to parse `bodyParams`
-  - [ ] Make router async
-  - [ ] Add `POST` method
+  - [x] Make router async
+  - [x] Add `POST` method
   - [x] Show the comments in same page
   - [x] Use the template for `guestBook`
    - [x] Keep the template hardcoded

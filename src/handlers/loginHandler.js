@@ -7,13 +7,13 @@ const createCheckLogin = (sessions) => {
       if (session) {
         req.session = session;
         next();
-        return false;
+        return;
       }
     }
-    res.statusCode = 302;
-    res.setHeader('Location', '/login.html');
-    res.end('');
-    return true;
+    res.status(302);
+    res.redirect('/login.html');
+    res.end();
+    return;
   };
 };
 

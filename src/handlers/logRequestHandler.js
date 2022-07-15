@@ -1,8 +1,7 @@
 const createRequestLogger = (logger) => {
-  return (request, response, next) => {
-    logger(request.method, request.uri.pathname);
+  return (req, res, next) => {
+    logger(req.method, req.path);
     next();
-    return;
   };
 };
 

@@ -1,12 +1,15 @@
-const { app } = require("./src/app.js");
-const { startServer } = require("./src/server/startServer.js");
+const { createApp } = require("./src/app.js");
 const fs = require('fs');
 
-const config = {
-  root: './public',
-  guestBookPath: './data/comments.json'
+const main = (logger, fs) => {
+  const config = {
+    root: './public',
+    guestBookPath: './data/comments.json'
+  };
+  const sessions = {};
+
+  const app = createApp(config, sessions, console.log, fs);
+  app.listen(8888, () => console.log('Listening at 8888'));
 };
 
-const sessions = {};
-
-startServer(8888, app(config, sessions, console.log, fs));
+main(console.log, fs);

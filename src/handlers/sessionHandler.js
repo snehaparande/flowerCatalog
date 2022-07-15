@@ -5,31 +5,19 @@ const createSessionHandler = (sessions) => {
       return;
     }
 
-    if (!(req.method === 'POST')) {
-      next();
-      return;
-    }
-
-    const pathname = req.uri.pathname;
-    if (!(pathname === '/login')) {
-      next();
-      return;
-    }
-
-    const username = req.bodyParams.username;
-    sessions[username] = {
-      sessionId: username,
-      time: new Date(),
+    const time = new Date();
+    const sessionId = time.valueOf();
+    sessions[sessionId] = {
+      time,
+      sessionId,
       maxAge: 30
     };
 
-    res.setHeader('set-cookie',
-      `id=${username}; Max-Age=${sessions[username].maxAge}`
-    );
+    res.cookie('id', sessionId, { expires: new Date(Date.now() + 30000) });
 
-    res.statusCode = 302;
-    res.setHeader('Location', '/guestbook');
-    res.end('');
+    res.status(302);
+    res.redirect('/guestbook');
+    res.end();
     return;
   }
 };
